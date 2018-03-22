@@ -13,11 +13,12 @@ module.exports = function(Model, options) {
     Model.remoteLogin = function(token,cb){
         let data = engine.decrypt(decodeURIComponent(token));
              if(data){
+                 let filter = {where: {username: data.username}};
                  if(options.findOrCreate){
-                    //@Todo data y where
-                    let promise = Model.findOrCreate()
+                     data.password = generator.generate({ length: 16, numbers: true});  // add generated password to data model
+                     let promise = Model.findOrCreate(filter,data)
                  }else{
-                    let promise = Model.find({where: {username: data.username}, limit: 1})
+                     let promise = Model.find(filter);
                  }
 
                  promise.then((instances)=>{
