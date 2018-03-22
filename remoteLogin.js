@@ -11,8 +11,7 @@ module.exports = function(Model, options) {
 
     Model.defineProperty('externalId', {
         type: String,
-        required:true,
-        default: options.default ? options.default : 'default'
+        required:true
       });
 
     Model.remoteLogin = function(token,cb){
