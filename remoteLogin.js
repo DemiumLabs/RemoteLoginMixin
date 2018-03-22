@@ -9,6 +9,11 @@ module.exports = function(Model, options) {
     let engine = encrypter(options.secret, {ttl: true});
     let generator = require('generate-password');
 
+    Model.defineProperty('externalId', {
+        type: String,
+        required:true,
+        default: options.default ? options.default : 'default'
+      });
 
     Model.remoteLogin = function(token,cb){
         let data = engine.decrypt(decodeURIComponent(token));
